@@ -179,7 +179,7 @@ def k_fold(k, X_train, y_train, num_epochs, learning_rate, weight_decay, batch_s
         net = get_net()
         train_ls, valid_ls = train(net, *data, num_epochs, learning_rate, weight_decay, batch_size)
         train_l_sum += train_ls[-1]
-        valid_l_sum += valid_l_sum[-1]
+        valid_l_sum += valid_ls[-1]
         if i == 0:
             d2l.plot(list(range(1, num_epochs + 1)), [train_ls, valid_ls], xlabel='epoch', ylabel='rmse',
                      xlim=[1, num_epochs], legend=['train', 'valid'], yscale='log')
@@ -206,9 +206,9 @@ if __name__ == '__main__':
     all_feature = data_preprocess(all_feature)
     # 加载训练数据和测试数据，训练标签
     n_train = train_data.shape[0]
-    train_feature = torch.tensor(all_feature[:n_train].values, dtype=d2l.float32)
-    test_feature = torch.tensor(all_feature[n_train:].values, dtype=d2l.float32)
-    train_label = torch.tensor(train_data.SalePrice.values.reshape(-1, 1), dtype=d2l.float32)
+    train_feature = torch.tensor(all_feature[:n_train].values, dtype=torch.float32)
+    test_feature = torch.tensor(all_feature[n_train:].values, dtype=torch.float32)
+    train_label = torch.tensor(train_data.SalePrice.values.reshape(-1, 1), dtype=torch.float32)
     # 损失函数
     loss = nn.MSELoss()
     in_feature = train_feature.shape[1]
