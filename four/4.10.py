@@ -183,8 +183,24 @@ def k_fold(k, X_train, y_train, num_epochs, learning_rate, weight_decay, batch_s
         if i == 0:
             d2l.plot(list(range(1, num_epochs + 1)), [train_ls, valid_ls], xlabel='epoch', ylabel='rmse',
                      xlim=[1, num_epochs], legend=['train', 'valid'], yscale='log')
+            d2l.plt.show()
         print(f'fold{i + 1}, train log rmse {float(train_ls[-1]):f},' f'valid log rmse {float(valid_ls[-1]):f}')
     return train_l_sum / k, valid_l_sum / k
+
+
+def train_and_pred(train_features, test_feature, train_label, test_data, num_epochs, lr, weight_decay, batch_size):
+    net = get_net()
+    train_ls, _ = train(net, train_features, train_label, None, None, num_epochs, lr, weight_decay, batch_size)
+    d2l.plot(np.arange(1, num_epochs + 1), [train_ls], xlabel='epoch', ylabel='log rmse', xlim=[1, num_epochs],
+             yscale='log')
+    d2l.plt.show()
+    print(f'train log rmse {float(train_ls[-1]) : f}')
+    # 将网络用于测试集
+    preds = net(test_feature).detach().numpy()
+    # 将其重新格式化以导出到kaggle
+    test_data['SalePrice'] = pd.Series(preds.reshape(1, -1)[0])
+    submission = pd.concat([test_data['Id'], test_data['SalePrice']], axis=1)
+    submission.to_csv('submission.csv', index=False)
 
 
 if __name__ == '__main__':
@@ -216,4 +232,6 @@ if __name__ == '__main__':
     k, num_epochs, lr, weight_decay, batch_size = 5, 100, 5, 0, 64
     train_l, valid_l, = k_fold(k, train_feature, train_label, num_epochs, lr, weight_decay, batch_size)
     print(f'{k}-折验证: 平均训练log rmse: {float(train_l):f}, ' f'平均验证log rmse: {float(valid_l):f}')
+    train_and_pred(train_feature, test_feature, train_label, test_data,
+                   num_epochs, lr, weight_decay, batch_size)
 
