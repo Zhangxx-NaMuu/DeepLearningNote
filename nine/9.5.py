@@ -81,7 +81,7 @@ def build_array_nmt(lines, vocab, num_steps):
 
 
 # @save
-def load_data_nmt(batch_size, num_steps, num_examples=600):
+def load_data_nmt(batch_size, num_steps, num_examples=800):
     # 返回翻译数据集的迭代器和词汇表
     text = preprocess_nmt(read_data_nmt())
     source, target = tokenize_nmt(text, num_examples)
