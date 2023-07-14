@@ -26,6 +26,7 @@ from d2l import torch as d2l
 由于梯度链更长，因此双向循环网络的训练成本非常高。
 """
 
+
 def main():
     # 加载数据
     batch_size, num_steps, device = 32, 35, d2l.try_gpu()
