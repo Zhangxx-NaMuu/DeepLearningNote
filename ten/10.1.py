@@ -48,6 +48,5 @@ def show_heatmaps(matrices, xlabel, ylabel, titles=None, figsize=(2.5, 2.5), cma
 
 
 if __name__ == '__main__':
-    attention_weights = torch.eye(10).reshape((1, 1, 10,10))
+    attention_weights = torch.eye(10).reshape((1, 1, 10, 10))
     show_heatmaps(attention_weights, xlabel='keys', ylabel='Queries')
-
