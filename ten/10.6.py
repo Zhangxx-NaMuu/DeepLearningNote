@@ -55,6 +55,11 @@ def main():
              figsize=(6, 2.5), legend=["Col %d" % d for d in torch.arange(6, 10)])
     d2l.plt.show()
 
+    P = P[0, :, :].unsqueeze(0).unsqueeze(0)
+    d2l.show_heatmaps(P, xlabel='Column (encoding dimension)',
+                      ylabel='Row (position)', figsize=(3.5, 4), cmap='Blues')
+    d2l.plt.show()
+
 
 if __name__ == '__main__':
     main()
